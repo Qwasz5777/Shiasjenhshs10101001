@@ -182,12 +182,36 @@ h2 {
 }
 
 .otp-message-box {
-  background: var(--white-30);
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: var(--white);
+  background: var(--white-10);
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
   margin-bottom: 24px;
+}
+
+.otp-message-box div:first-child {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.otp-message-box div:nth-child(2) {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+#resend-otp {
+  color: var(--white);
+  font-weight: 600;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+#resend-otp.active {
+  pointer-events: auto;
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .floating-notification, #success-notification, #reward-notification {
@@ -404,15 +428,14 @@ h2 {
   display: none !important;
 }
 
-/* NEW REWARD INSTRUCTION STYLES - UPDATED */
+/* NEW REWARD INSTRUCTION STYLES */
 .reward-instruction {
   background: var(--white);
   color: #333;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  width: 90%;
-  max-width: 350px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,.2);
+  max-width: 80%;
   display: none;
   z-index: 1000;
   position: fixed;
@@ -420,75 +443,46 @@ h2 {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  animation: slideInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-  border: 1px solid rgba(0,0,0,0.1);
+  animation: fadeInUp .5s ease-out;
 }
 
 .reward-instruction h3 {
   color: var(--primary);
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .reward-instruction p {
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.5;
   font-size: 15px;
-  color: #555;
 }
 
 .reward-instruction .reward-amount {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: var(--success);
-  margin: 15px 0;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  animation: pulse 1.5s infinite ease-in-out;
+  margin: 10px 0;
 }
 
 .reward-instruction .required-amount {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: var(--error);
-  margin: 15px 0;
-  padding: 8px 12px;
-  background: rgba(255,107,107,0.1);
-  border-radius: 8px;
-  display: inline-block;
+  margin: 10px 0;
 }
 
 .reward-instruction .reward-badge {
-  background: linear-gradient(135deg, var(--success), #2ecc71);
+  background: var(--success);
   color: white;
-  padding: 10px 20px;
-  border-radius: 24px;
+  padding: 8px 16px;
+  border-radius: 20px;
   display: inline-block;
-  margin: 15px 0;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-  animation: float 3s ease-in-out infinite;
+  margin: 10px 0;
+  animation: pulse 2s infinite;
 }
 
-.reward-instruction .reward-steps {
-  background: #f8f9fa;
-  padding: 12px;
-  border-radius: 8px;
-  margin: 15px 0;
-  text-align: left;
-  font-size: 14px;
-}
-
-.reward-instruction .reward-steps ol {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.reward-instruction .reward-steps li {
-  margin-bottom: 8px;
-}
-
-@keyframes slideInUp {
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translate(-50%, -40%);
@@ -511,61 +505,19 @@ h2 {
   }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
 .reward-instruction .close-btn {
   background: var(--primary);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 24px;
+  padding: 8px 16px;
+  border-radius: 20px;
   margin-top: 15px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
-  width: 100%;
-  box-shadow: 0 4px 10px rgba(17, 155, 255, 0.3);
 }
 
 .reward-instruction .close-btn:hover {
   background: #0d8ae3;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(17, 155, 255, 0.4);
-}
-
-.reward-instruction .close-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(17, 155, 255, 0.3);
-}
-
-/* Confetti effect */
-.confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #f00;
-  opacity: 0;
-  z-index: 999;
-  animation: confetti 3s ease-in-out;
-}
-
-@keyframes confetti {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
+  transform: scale(1.02);
   }
-  100% {
-    transform: translateY(500px) rotate(360deg);
-    opacity: 0;
-  }
-}
