@@ -44,7 +44,7 @@ exports.handler = async (event, context) => {
   // CORS headers untuk keamanan
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'https://your-domain.netlify.app',
+    'Access-Control-Allow-Origin': 'https://link-dana-klaim-daget-dana-2025.netlify.app/',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type'
   };
